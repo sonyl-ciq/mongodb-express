@@ -10,7 +10,7 @@ var saveRouter = require('./routes/save');
 var getRouter = require('./routes/get');
 var deleteRouter = require('./routes/delete');
 var pingRouter = require('./routes/ping');
-
+var clearRouter = require('./routes/clear');
 var app = express();
 
 // view engine setup
@@ -29,6 +29,7 @@ app.use('/save', saveRouter)
 app.use('/get', getRouter)
 app.use('/delete', deleteRouter)
 app.use('/ping', pingRouter)
+app.use('/clear', clearRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

@@ -5,10 +5,12 @@ var express = require('express');
 var router = express.Router();
 
 router.delete('/', function(req, res, next) {
+    const query = req.query.key.replace(':','\\\:');
+
     MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
         if (err) throw err;
         var dbo = db.db("chartiq");
-        dbo.collection("fsbl").deleteOne( { key: req.query.key}, (err, obj) => {
+        dbo.collection("fsbl").deleteMany( { key: { $regex: `^.*${query}.*` } }, (err, obj) => {
           if (err) throw err;
           db.close();
         });
