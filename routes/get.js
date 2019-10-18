@@ -11,8 +11,13 @@ router.get('/', function(req, res, next) {
         const dbo = db.db("chartiq");
 
         dbo.collection("fsbl").find({ key: req.query.key }).limit(1).sort({$natural:-1}).toArray((err, result) => {
-            console.log('get result',result)
-            res.json(JSON.stringify(result))
+            if (result.length === 1) {
+                res.json(result[0])
+                db.close()
+            } else {
+                res.json(result)
+                db.close()
+            }      
         })
     })
 });
