@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 
         dbo.collection("fsbl").find({ key: req.query.key }).limit(1).sort({$natural:-1}).toArray((err, result) => {
             if (result.length === 1) {
+                console.log(result[0])
                 res.json(result[0])
                 db.close()
             } else {

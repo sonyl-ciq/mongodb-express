@@ -5,15 +5,16 @@ var express = require('express');
 var router = express.Router();
 
 router.delete('/', function(req, res, next) {
-    MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+  console.log('DELETE', req.query.key);
+  MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("chartiq");
+      dbo.collection("fsbl").deleteOne( { key: req.query.key}, (err, obj) => {
         if (err) throw err;
-        var dbo = db.db("chartiq");
-        dbo.collection("fsbl").deleteOne( { key: req.query.key}, (err, obj) => {
-          if (err) throw err;
-          db.close();
-        });
-        
-    });
+        db.close();
+      });
+      
+  });
   res.sendStatus(200);
 });
 

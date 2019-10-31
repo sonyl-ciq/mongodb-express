@@ -8,7 +8,7 @@ router.post('/', function(req, res) {
     MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, db) {
         if (err) throw err;
         var dbo = db.db("chartiq");
-        dbo.collection("fsbl").insertOne(req.body , function(err, res) {
+        dbo.collection("fsbl").update({ key: req.body.key }, req.body, { upsert: true }, function(err, res) {
             if (err) throw err;
             console.log("1 document inserted");
             db.close();
